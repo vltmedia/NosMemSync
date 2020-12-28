@@ -4,12 +4,13 @@
 #include <QTextCodec>
 #include <QSettings>
 #include <QStringListModel>
+#include<QDirIterator>
 TCP_Client_A::TCP_Client_A(QWidget *parent) : QMainWindow(parent),
     ui (new Ui::TCP_Client_A)
 {
     ui-> setupUi (this);
     loadSettings();
-
+ParseType = "Text";
       nmstype.nmsCommand =NMSCommand::GetFiles;
         nmstype.nmsApp =NMSApp::RetroArch;
           nmstype.nmsFolders =NMSFolders::MemoryCards;
@@ -38,6 +39,20 @@ void TCP_Client_A :: Acceptconnection ()
 
 void TCP_Client_A :: ReadClient ()
 {
+
+    if(ParseType == "Text"){
+
+
+   QByteArray datas = receivedsocket->readAll();
+    QString DataAsString = QTextCodec::codecForMib(106)->toUnicode(datas);
+    QString thing = QTextCodec::codecForMib(106)->toUnicode(datas);
+
+
+
+
+  ui-> receivedStatusLabel-> setText ("Received Text:" + thing);
+    }
+    if(ParseType == "File"){
     ui-> receivedStatusLabel-> setText (tr ("Receiving file ..."));
 
     if (bytereceived == 0) // just started to receive data, this data is file information
@@ -70,6 +85,7 @@ void TCP_Client_A :: ReadClient ()
         Inblock.clear ();
         bytereceived = 0;
         totalsize = 0;
+    }
     }
 }
 
@@ -228,4 +244,19 @@ void TCP_Client_A::on_comboBox_3_currentIndexChanged(const QString &arg1)
 
     nmstype.getNMSTCPCommand();
     ui->CommandLabel->setText( nmstype.nmsTCPCommand);
+}
+
+void TCP_Client_A::on_ReadDirectoryButton_clicked()
+{
+    QList<QString> filesindir;
+    QDirIterator iterator("C:/Users/Justin Jaro/Documents/Temp/TestFiles/memcards", QStringList() << "*.ps2", QDir::Files, QDirIterator::NoIteratorFlags);
+    while (iterator.hasNext()) {
+        QFile filee(iterator.next());
+        filesindir.append(filee.fileName());
+
+    }
+    QStringListModel *model = new QStringListModel(filesindir);
+ ui->listViewChoices->setModel(model);
+    qDebug() << filesindir;
+    qDebug() << filesindir.length();
 }

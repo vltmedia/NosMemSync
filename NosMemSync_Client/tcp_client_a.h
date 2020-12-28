@@ -41,6 +41,7 @@ explicit TCP_Client_A(QWidget *parent = nullptr);
         }
         QByteArray Inblock;
         QString FileName;
+        QString ParseType;
         bool DownloadFinished;
         qint64 totalsize;
         qint64 bytereceived;
@@ -53,21 +54,23 @@ explicit TCP_Client_A(QWidget *parent = nullptr);
                 QString pcsx2MemLocation;
           };
           SPreferences m_prefs;
-
+ public slots:
+          void on_pushButton_clicked();
+          void on_pushButton_LoadSettings_clicked();
+          void on_pushButton_SaveSettings_clicked();
+          void on_pushButton_NextChoice_clicked();
+          void on_pushButton_RemoveNext_clicked();
     private slots:
         void Acceptconnection ();
         void ReadClient ();
 
 
-        void on_pushButton_clicked();
-        void on_pushButton_LoadSettings_clicked();
-        void on_pushButton_SaveSettings_clicked();
-        void on_pushButton_NextChoice_clicked();
-        void on_pushButton_RemoveNext_clicked();
+
         void on_comboBox_currentIndexChanged(const QString &arg1);
         void on_pushButton_SaveSettings_2_clicked();
         void on_comboBox_2_currentIndexChanged(const QString &arg1);
         void on_comboBox_3_currentIndexChanged(const QString &arg1);
+        void on_ReadDirectoryButton_clicked();
 };
 
 #endif // TCP_CLIENT_A_H
