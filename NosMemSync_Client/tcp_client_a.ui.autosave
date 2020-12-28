@@ -172,12 +172,12 @@
          </property>
          <item>
           <property name="text">
-           <string>Download</string>
+           <string>Get Files</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Get Files</string>
+           <string>Download</string>
           </property>
          </item>
          <item>

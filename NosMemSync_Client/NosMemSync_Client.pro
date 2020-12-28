@@ -11,10 +11,14 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    nms_types.cpp \
+    nosmemsync_tcp_commands.cpp \
     tcp_client_a.cpp
 
 HEADERS += \
     mainwindow.h \
+    nms_types.h \
+    nosmemsync_tcp_commands.h \
     tcp_client_a.h
 
 FORMS += \

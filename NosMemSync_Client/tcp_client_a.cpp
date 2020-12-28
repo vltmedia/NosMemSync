@@ -1,5 +1,5 @@
 #include "tcp_client_a.h"
-
+#include "nms_types.h"
 #include "ui_tcp_client_a.h"
 #include <QTextCodec>
 #include <QSettings>
@@ -10,6 +10,11 @@ TCP_Client_A::TCP_Client_A(QWidget *parent) : QMainWindow(parent),
     ui-> setupUi (this);
     loadSettings();
 
+      nmstype.nmsCommand =NMSCommand::GetFiles;
+        nmstype.nmsApp =NMSApp::RetroArch;
+          nmstype.nmsFolders =NMSFolders::MemoryCards;
+    nmstype.getNMSTCPCommand();
+    ui->CommandLabel->setText( nmstype.nmsTCPCommand);
       //ui-> progressLabel-> hide ();
 
      // QTextCodec :: setCodecForTr (QTextCodec :: codecForName ("GBK"));
@@ -130,6 +135,97 @@ void TCP_Client_A::on_pushButton_SaveSettings_clicked()
 
 void TCP_Client_A::on_pushButton_NextChoice_clicked()
 {
-  //  QStringListModel *model = new QStringListModel(filepathAvailables);
-//ui->listViewChoices->setModel(model);
+
+    filepathAvailables = {"Poo", "Summoner", "Ryu"};
+    QStringListModel *model = new QStringListModel(filepathAvailables);
+ui->listViewChoices->setModel(model);
+//nmstype.nmsCommand =NMSCommand::Download;
+//nmstype.nmsFolders =  NMSFolders::MemoryCards;
+//nmstype.nmsApp =  NMSApp::PCSX2;
+//int index = metaObject()->indexOfEnumerator("NMSApp");
+//QMetaEnum metaEnum = metaObject()->enumerator(index);
+
+//QString hing = metaEnum.valueToKey(static_cast<int>(*nmstype.nmsApp));
+//qDebug() << nmstype.nmsApp;
+
+///nmstype.nmsApp = new NMSApp(NMSApp::PCSX2);
+//qDebug() <<  QVariant::fromValue(*nmstype.nmsApp).toString();
+//nmstype.nmsTCPCommandClass.nmsCommand << NMSCommand::Download;
+
+//nmstype.getNMSTCPCommand();
+
+
+//qDebug() << nmstype.nmsTCPCommand;
+
+
+}
+
+void TCP_Client_A::on_pushButton_RemoveNext_clicked()
+{
+  //  qDebug() << filepathAvailables;
+   filepathsRemoveLast();
+   QStringListModel *model = new QStringListModel(filepathAvailables);
+ui->listViewChoices->setModel(model);
+  //  qDebug() << filepathAvailables;
+}
+
+void TCP_Client_A::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    if(arg1 == "Download"){
+        nmstype.nmsCommand =NMSCommand::Download;
+    }
+
+    if(arg1 == "Update"){
+        nmstype.nmsCommand =NMSCommand::Update;
+    }
+
+    if(arg1 == "Get Files"){
+        nmstype.nmsCommand =NMSCommand::GetFiles;
+    }
+    nmstype.getNMSTCPCommand();
+    ui->CommandLabel->setText( nmstype.nmsTCPCommand);
+}
+
+void TCP_Client_A::on_pushButton_SaveSettings_2_clicked()
+{
+    nmstype.getNMSTCPCommand();
+
+    nmstype.getNMSTCPCommand();
+    ui->CommandLabel->setText( nmstype.nmsTCPCommand);
+    qDebug() << nmstype.nmsTCPCommand;
+}
+
+void TCP_Client_A::on_comboBox_2_currentIndexChanged(const QString &arg1)
+{
+    if(arg1 == "RetroArch"){
+        nmstype.nmsApp = NMSApp::RetroArch;
+    }
+
+    if(arg1 == "PCSX2"){
+        nmstype.nmsApp =NMSApp::PCSX2;
+    }
+
+    if(arg1 == "Project64"){
+        nmstype.nmsApp =NMSApp::Project64;
+    }
+    nmstype.getNMSTCPCommand();
+    ui->CommandLabel->setText( nmstype.nmsTCPCommand);
+}
+
+void TCP_Client_A::on_comboBox_3_currentIndexChanged(const QString &arg1)
+{
+    if(arg1 == "Memory Cards"){
+        nmstype.nmsFolders = NMSFolders::MemoryCards;
+    }
+
+    if(arg1 == "Configs"){
+        nmstype.nmsFolders =NMSFolders::Configs;
+    }
+
+    if(arg1 == "Cheats"){
+        nmstype.nmsFolders =NMSFolders::Cheats;
+    }
+
+    nmstype.getNMSTCPCommand();
+    ui->CommandLabel->setText( nmstype.nmsTCPCommand);
 }
